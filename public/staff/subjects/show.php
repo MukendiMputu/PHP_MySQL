@@ -1,7 +1,8 @@
 <?php
     //$id = isset($_GET['id']) ? $_GET['id'] : '1';
     $id = $_GET['id'] ?? '1'; // since PHP 7.0 and later
-    echo $id;
+
+    echo htmlspecialchars($id); // prevent html tags to be passed in
 ?>
 
 <a href="staff/subjects/show.php?name=<?php echo urlencode('John Doe'); ?>">Link</a><br />
