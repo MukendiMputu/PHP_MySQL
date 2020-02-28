@@ -17,31 +17,31 @@
         <h1>Subjects</h1>
 
         <div class="actions">
-        <a class="action" href="">Create New Subject</a>
+            <a class="action" href="">Create New Subject</a>
         </div>
 
         <table class="list">
-        <tr>
-            <th>ID</th>
-            <th>Position</th>
-            <th>Visible</th>
-            <th>Name</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-        </tr>
-
-        <?php foreach($subjects as $subject) { ?>
             <tr>
-                <td><?php echo $subject['id']; ?></td>
-                <td><?php echo $subject['position']; ?></td>
-                <td><?php echo $subject['visible'] == 1 ? 'true' : 'false'; ?></td>
-                <td><?php echo $subject['menu_name']; ?></td>
-                <td><a class="action" href="<?php echo url_for('/staff/subjects/show.php?id='. $subject['id']); ?>">View</a></td>
-                <td><a class="action" href="">Edit</a></td>
-                <td><a class="action" href="">Delete</a></td>
+                <th>ID</th>
+                <th>Position</th>
+                <th>Visible</th>
+                <th>Name</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
             </tr>
-        <?php } ?>
+
+            <?php foreach($subjects as $subject) { ?>
+                <tr>
+                    <td><?php echo $subject['id']; ?></td>
+                    <td><?php echo $subject['position']; ?></td>
+                    <td><?php echo $subject['visible'] == 1 ? 'true' : 'false'; ?></td>
+                    <td><?php echo $subject['menu_name']; ?></td>
+                    <td><a class="action" href="<?php echo url_for('/staff/subjects/show.php?id='. $subject['id']); ?>">View</a></td>
+                    <td><a class="action" href="">Edit</a></td>
+                    <td><a class="action" href="">Delete</a></td>
+                </tr>
+            <?php } ?>
         </table>
     </div>
 </div>
