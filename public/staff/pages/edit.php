@@ -6,7 +6,7 @@
     }
 
     $id = $_GET['id'];
-    $page_name = '';
+    $page_name ='';
     $position = '';
     $visible = '';
 
