@@ -17,10 +17,26 @@
       $position = $_POST['position'] ?? '';
       $visible = $_POST['visible'] ?? '';
 
-      echo "Form parameters<br />";
-      echo "Page name: " . $page_name . "<br />";
-      echo "Position: " . $position . "<br />";
-      echo "Visible: " . $visible . "<br />";
+      $sql = "INSERT INTO pages ";
+      $sql .= "(page_name, position, visible) ";
+      $sql .= "VALUES (";
+      $sql .= "'" . $page_name . "',";
+      $sql .= "'" . $position . "',";
+      $sql .= "'" . $visible . "'";
+      $sql .= ")";
+      $result = mysqli_query($db, $sql);
+
+      if($result) {
+          $new_id = mysqli_insert_id($db);
+          redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
+      } else {
+        // INSERT failed: show error and close connexion
+        echo mysqli_error($db);
+        db_disconnect($db);
+        exit;
+      }
+    } else {
+        redirect_to(url_for('/staff/pages/new.php'));
     }
 
     $page_title = 'Edit Page';
