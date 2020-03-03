@@ -43,19 +43,20 @@
         return $subject;
     }
 
-    function insert_subject($menu_name, $position, $visible) {
+    function insert_subject($subject) {
+        global $db;
+
         $sql = "INSERT INTO subjects ";
         $sql .= "(menu_name, position, visible) ";
         $sql .= "VALUES (";
-        $sql .= "'" . $menu_name . "',";
-        $sql .= "'" . $position . "',";
-        $sql .= "'" . $visible . "'";
+        $sql .= "'" . $subject['menu_name'] . "',";
+        $sql .= "'" . $subject['position'] . "',";
+        $sql .= "'" . $subject['visible'] . "'";
         $sql .= ")";
         $result = mysqli_query($db, $sql);
 
         if($result) {
-            $new_id = mysqli_insert_id($db);
-            redirect_to(url_for('/staff/subjects/show.php?id=' . $new_id));
+            return $new_id = mysqli_insert_id($db);
         } else {
             // INSERT failed: show error and close connexion
             echo mysqli_error($db);
@@ -64,24 +65,74 @@
         }
     }
 
-    function insert_page($page_name, $position, $visible) {
+    function insert_page($page) {
+        global $db;
+
         $sql = "INSERT INTO pages ";
-        $sql .= "(page_name, position, visible) ";
+        $sql .= "(subject_id, page_name, position, visible, content) ";
         $sql .= "VALUES (";
-        $sql .= "'" . $page_name . "',";
-        $sql .= "'" . $position . "',";
-        $sql .= "'" . $visible . "'";
+        $sql .= "'" . $page['subject_id'] . "',";
+        $sql .= "'" . $page['page_name'] . "',";
+        $sql .= "'" . $page['position'] . "',";
+        $sql .= "'" . $page['visible'] . "',";
+        $sql .= "'" . $page['content'] . "'";
         $sql .= ")";
         $result = mysqli_query($db, $sql);
 
         if($result) {
-            $new_id = mysqli_insert_id($db);
-            redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
+            return $new_id = mysqli_insert_id($db);
         } else {
             // INSERT failed: show error and close connexion
             echo mysqli_error($db);
             db_disconnect($db);
             exit;
         }
+    }
+
+    function update_subject($subject) {
+        global $db;
+
+        $sql = "UPDATE subjects SET ";
+        $sql .= "menu_name = '" . $subject['menu_name'] . "', ";
+        $sql .= "position = '" . $subject['position'] . "', ";
+        $sql .= "visible = '" . $subject['visible'] . "' ";
+        $sql .= "WHERE id ='" . $subject['id'] . "' ";
+        $sql .= "LIMIT 1";
+        $result = mysqli_query($db, $sql);
+
+        if($result) {
+            return true;
+        } else {
+          // INSERT failed: show error and close connexion
+          echo mysqli_error($db);
+          db_disconnect($db);
+          exit;
+        }
+    }
+
+    function update_page($page) {
+        global $db;
+
+        $sql = "UPDATE pages SET ";
+        $sql .= "subject_id = '" . $page['subject_id'] . "', ";
+        $sql .= "page_name = '" . $page['page_name'] . "', ";
+        $sql .= "position = '" . $page['position'] . "', ";
+        $sql .= "visible = '" . $page['visible'] . "' ";
+        $sql .= "WHERE id ='" . $page['id'] . "' ";
+        $sql .= "LIMIT 1";
+        $result = mysqli_query($db, $sql);
+
+        if($result) {
+            return true;
+        } else {
+          // INSERT failed: show error and close connexion
+          echo mysqli_error($db);
+          db_disconnect($db);
+          exit;
+        }
+    }
+
+    function count_subjects_records() {
+
     }
 ?>

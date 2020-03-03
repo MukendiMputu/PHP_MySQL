@@ -5,13 +5,14 @@ require_once('../../../private/initialize.php');
 if(is_post_request()) {
 
   // Handle form values sent by new.php
+  $page = [];
+  $page['page_name'] = $_POST['page_name'] ?? '';
+  $page['subject_id'] = $_POST['subject_id'] ?? '';
+  $page['position'] = $_POST['position'] ?? '';
+  $page['visible'] = $_POST['visible'] ?? '';
+  $page['content'] = $_POST['content'] ?? '';
 
-  $page_name = $_POST['page_name'] ?? '';
-  $position = $_POST['position'] ?? '';
-  $visible = $_POST['visible'] ?? '';
-
-  $result = insert_subject($page_name, $position, $visible);
-  $new_id = mysqli_insert_id($db);
+  $new_id = insert_page($page);
   redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
 
 } else {

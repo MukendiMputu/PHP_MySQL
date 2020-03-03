@@ -6,6 +6,19 @@
 
 <?php include(SHARED_PATH .'/staff_header.php'); ?>
 
+<?php
+    $subject_set = find_all_subjects();
+    $subject_count = mysqli_num_rows($subject_set);
+    $subjects = mysqli_fetch_all($subject_set);
+
+    $page_set = find_all_pages();
+    $page_count = mysqli_num_rows($page_set) + 1;
+
+    $page = [];
+    $page['position'] = $page_count;
+
+?>
+
 <div id="content">
     <a class="back list" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a><br/>
 
@@ -18,12 +31,32 @@
                 <dd><input type="text" name="page_name" value="" /></dd>
             </dl>
             <dl>
+                <dt>Subject ID</dt>
+                <dd>
+                <select name="subject_id">
+                        <?php
+                        foreach($subjects as $subject_row) {
+                            echo "<option value=\"{$subject_row[0]}\"";
+                            if($subject_row[0] == $page_count) {echo " selected";}
+                            echo ">{$subject_row[0]}</option>";
+                        }
+                        ?>
+                </select>
+                </dd>
+            </dl>
+            <dl>
                 <dt>Position</dt>
                 <dd>
                 <select name="position">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                        <?php
+                        for($i=1; $i <= $page_count; $i++) {
+                            echo "<option value=\"{$i}\"";
+                            if($page["position"] == $i) {
+                            echo " selected";
+                            }
+                            echo ">{$i}</option>";
+                        }
+                        ?>
                 </select>
                 </dd>
             <dl>
@@ -33,11 +66,20 @@
                     <input type="checkbox" name="visible" value="1" />
                 </dd>
             </dl>
+            <dl>
+                <dt>Page Content</dt>
+                <dd><input type="text" name="content" value="" /></dd>
+            </dl>
             <div id="operations">
                 <input type="submit" value="Create Page" />
             </div>
         </form>
     </div>
 </div>
+
+<?php
+    mysqli_free_result($subject_set);
+    mysqli_free_result($page_set);
+?>
 
 <?php include(SHARED_PATH . '/staff_footer.php'); ?>
