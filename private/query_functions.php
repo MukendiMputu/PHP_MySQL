@@ -132,7 +132,74 @@
         }
     }
 
-    function count_subjects_records() {
+    function delete_page($id) {
+        global $db;
+
+        $sql = "DELETE FROM pages ";
+        $sql .= "WHERE id ='" . $id . "' ";
+        $sql .= "LIMIT 1";
+        $result = mysqli_query($db, $sql);
+
+        if($result) {
+            return true;
+        } else {
+          // INSERT failed: show error and close connexion
+          echo mysqli_error($db);
+          db_disconnect($db);
+          exit;
+        }
+    }
+
+    function delete_subject($id) {
+        global $db;
+
+        $sql = "DELETE FROM subjects ";
+        $sql .= "WHERE id='" . $id . "' ";
+        $sql .= "LIMIT 1";
+        $result = mysqli_query($db, $sql);
+
+        // For DELETE statements, $result is true/false
+        if($result) {
+          return true;
+        } else {
+          // DELETE failed
+          echo mysqli_error($db);
+          db_disconnect($db);
+          exit;
+        }
+    }
+
+    function count_subject_records() {
+        global $db;
+
+        $sql = "SELECT COUNT(id) FROM subjects";
+        $result = mysqli_query($db, $sql);
+
+        if($result) {
+            return $result;
+        } else {
+          // INSERT failed: show error and close connexion
+          echo mysqli_error($db);
+          db_disconnect($db);
+          exit;
+        }
+
+    }
+
+    function count_page_records() {
+        global $db;
+
+        $sql = "SELECT COUNT(id) FROM pages";
+        $result = mysqli_query($db, $sql);
+
+        if($result) {
+            return $result;
+        } else {
+          // INSERT failed: show error and close connexion
+          echo mysqli_error($db);
+          db_disconnect($db);
+          exit;
+        }
 
     }
 ?>

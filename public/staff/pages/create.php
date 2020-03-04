@@ -12,7 +12,8 @@ if(is_post_request()) {
   $page['visible'] = $_POST['visible'] ?? '';
   $page['content'] = $_POST['content'] ?? '';
 
-  $new_id = insert_page($page);
+  $result = insert_page($page);
+  $new_id = mysqli_insert_id($db);
   redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
 
 } else {

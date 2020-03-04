@@ -8,7 +8,6 @@
 
 <?php
     $subject_set = find_all_subjects();
-    $subject_count = mysqli_num_rows($subject_set);
     $subjects = mysqli_fetch_all($subject_set);
 
     $page_set = find_all_pages();
@@ -31,14 +30,12 @@
                 <dd><input type="text" name="page_name" value="" /></dd>
             </dl>
             <dl>
-                <dt>Subject ID</dt>
+                <dt>Subject</dt>
                 <dd>
                 <select name="subject_id">
                         <?php
                         foreach($subjects as $subject_row) {
-                            echo "<option value=\"{$subject_row[0]}\"";
-                            if($subject_row[0] == $page_count) {echo " selected";}
-                            echo ">{$subject_row[0]}</option>";
+                            echo "<option value=\"{$subject_row[1]}\">{$subject_row[1]}</option>";
                         }
                         ?>
                 </select>

@@ -20,6 +20,14 @@
                 <dd><?php echo h($page['page_name']) ?></dd>
             </dl>
             <dl>
+                <dt>Subject:</dt>
+                <dd><?php
+                        $subject = find_subject_by_id($page['subject_id']);
+                        echo $subject['menu_name'];
+                    ?>
+                </dd>
+            </dl>
+            <dl>
                 <dt>Position:</dt>
                 <dd><?php echo h($page['position']) ?></dd>
             </dl>

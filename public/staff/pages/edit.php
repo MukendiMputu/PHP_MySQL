@@ -41,10 +41,17 @@
                 <dd><input type="text" name="page_name" value="<?php echo h($page['page_name']); ?>" /></dd>
             </dl>
             <dl>
-                <dt>Subject ID</dt>
+                <dt>Subject</dt>
                 <dd>
                 <select name="subject_id">
-                    <option value="1"<?php if($page['subject_id'] == "1") { echo " selected"; } ?>>1</option>
+                <?php $subjects = find_all_subjects();$current_page = find_subject_by_id($page['subject_id']);?>
+                <?php while ($subject = mysqli_fetch_assoc($subjects)) {
+                    echo "<option value=\" {$subject['menu_name']} \"";
+                    if ($subject['menu_name'] == $current_page['menu_name']) {
+                        echo " selected";
+                    }
+                    echo "> {$subject['menu_name']} </option>";
+                }?>
                 </select>
                 </dd>
             <dl>
