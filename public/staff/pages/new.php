@@ -35,7 +35,7 @@
                 <select name="subject_id">
                         <?php
                         foreach($subjects as $subject_row) {
-                            echo "<option value=\"{$subject_row[1]}\">{$subject_row[1]}</option>";
+                            echo "<option value=\"{$subject_row[0]}\">{$subject_row[1]}</option>";
                         }
                         ?>
                 </select>

@@ -57,4 +57,8 @@
     }
     return $output;
   }
+  // escaping backslashes and special characters
+  function db_escape($connection, $string) {
+    return mysqli_real_escape_string($connection, $string);
+  }
 ?>
