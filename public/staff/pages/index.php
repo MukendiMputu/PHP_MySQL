@@ -3,9 +3,6 @@
 <?php $page_title = 'Pages'; ?>
 <?php include(SHARED_PATH.'/staff_header.php'); ?>
 
-<?php
-    $pages = find_all_pages();
-?>
 
 
 <div id="content">
@@ -28,9 +25,10 @@
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
             </tr>
-            <?php while ($page = mysqli_fetch_assoc($pages)) { ?>
             <?php
-                $subject = find_subject_by_id($page['subject_id']);
+                $pages = find_all_pages();
+                while ($page = mysqli_fetch_assoc($pages)) {
+                    $subject = find_subject_by_id($page['subject_id']);
             ?>
             <tr>
                 <td><?php echo h($page['id']); ?></td>
