@@ -7,12 +7,27 @@ require_once('../../../private/initialize.php');
 <?php include(SHARED_PATH.'/staff_header.php'); ?>
 
 <?php
-    $subject_set = find_all_subjects();
-    $subject_count = mysqli_num_rows($subject_set) + 1;
-    mysqli_free_result($subject_set);
 
-    $subject = [];
-    $subject['position'] = $subject_count;
+    if(is_post_request()) {
+
+        // Handle form values sent by new.php
+        $subject = [];
+        $subject['menu_name'] = $_POST['menu_name'] ?? '';
+        $subject['position'] = $_POST['position'] ?? '';
+        $subject['visible'] = $_POST['visible'] ?? '';
+
+        $new_id = insert_subject($subject);
+        redirect_to(url_for('/staff/subjects/show.php?id=' . $new_id));
+
+    } else {
+        $subject_set = find_all_subjects();
+        $subject_count = mysqli_num_rows($subject_set) + 1;
+        mysqli_free_result($subject_set);
+
+        $subject = [];
+        $subject['position'] = $subject_count;
+    }
+
 ?>
 
 <div id="content">

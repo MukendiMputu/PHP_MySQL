@@ -7,14 +7,32 @@
 <?php include(SHARED_PATH .'/staff_header.php'); ?>
 
 <?php
-    $subject_set = find_all_subjects();
-    $subjects = mysqli_fetch_all($subject_set);
 
-    $page_set = find_all_pages();
-    $page_count = mysqli_num_rows($page_set) + 1;
+    if(is_post_request()) {
 
-    $page = [];
-    $page['position'] = $page_count;
+        // Handle form values sent by new.php
+        $page = [];
+        $page['page_name'] = $_POST['page_name'] ?? '';
+        $page['subject_id'] = $_POST['subject_id'] ?? '';
+        $page['position'] = $_POST['position'] ?? '';
+        $page['visible'] = $_POST['visible'] ?? '';
+        $page['content'] = $_POST['content'] ?? '';
+
+        $result = insert_page($page);
+        $new_id = mysqli_insert_id($db);
+        redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
+
+    } else {
+
+        $subject_set = find_all_subjects();
+        $subjects = mysqli_fetch_all($subject_set);
+
+        $page_set = find_all_pages();
+        $page_count = mysqli_num_rows($page_set) + 1;
+
+        $page = [];
+        $page['position'] = $page_count;
+    }
 
 ?>
 
@@ -24,7 +42,7 @@
     <div class="page new">
         <h1>Create Page</h1>
 
-        <form action="<?php echo url_for('/staff/pages/create.php'); ?>" method="post">
+        <form action="<?php echo url_for('/staff/pages/new.php'); ?>" method="post">
             <dl>
                 <dt>Page Name</dt>
                 <dd><input type="text" name="page_name" value="" /></dd>
