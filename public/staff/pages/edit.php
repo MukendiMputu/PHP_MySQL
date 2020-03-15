@@ -71,7 +71,7 @@
             </dl>
             <dl>
                 <dt>Page Content</dt>
-                <dd><input type="text" name="content" value="<?php echo h($page['content']); ?>" /></dd>
+                <dd><textarea name="content" cols="60" rows="10"> <?php echo h($page['content']); ?></textarea></dd>
             </dl>
             <div id="operations">
                 <input type="submit" value="Edit Page" />

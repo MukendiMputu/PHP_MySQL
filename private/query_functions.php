@@ -31,6 +31,17 @@
         return $page;
     }
 
+    function find_pages_by_subject_id ($subject_id) {
+        global $db;
+
+        $sql = "SELECT * FROM pages ";
+        $sql .= "WHERE subject_id='" . db_escape($db, $subject_id) . "' ";
+        $sql .= "ORDER BY position ASC";
+        $result = mysqli_query($db, $sql);
+        confirm_result_set($result);
+        return $result;
+    }
+
     function find_subject_by_id($subject_id) {
         global $db;
 
@@ -172,40 +183,6 @@
           db_disconnect($db);
           exit;
         }
-    }
-
-    function count_subject_records() {
-        global $db;
-
-        $sql = "SELECT COUNT(id) FROM subjects";
-        $result = mysqli_query($db, $sql);
-
-        if($result) {
-            return $result;
-        } else {
-          // INSERT failed: show error and close connexion
-          echo mysqli_error($db);
-          db_disconnect($db);
-          exit;
-        }
-
-    }
-
-    function count_page_records() {
-        global $db;
-
-        $sql = "SELECT COUNT(id) FROM pages";
-        $result = mysqli_query($db, $sql);
-
-        if($result) {
-            return $result;
-        } else {
-          // INSERT failed: show error and close connexion
-          echo mysqli_error($db);
-          db_disconnect($db);
-          exit;
-        }
-
     }
 
     function validate_subject($subject) {
