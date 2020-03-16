@@ -31,8 +31,9 @@
   <div id="page">
     <?php
       if(isset($page)){
-        // TODO add html escaping back
-        echo $page['content'];
+        // preventing Xsite-scripting
+        $allowed_tags = '<div><img><h1><h2><p><br><strong><em><ul><li>';
+        echo strip_tags($page['content'], $allowed_tags);
       } else {
         include(SHARED_PATH . '/static_homepage.php');
       }
