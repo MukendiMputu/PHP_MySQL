@@ -38,6 +38,7 @@
             <dl>
                 <dt>Content:</dt>
                 <dd><?php echo h($page['content']) ?></dd>
+                <dd><a class="action" href="<?php echo url_for('/index.php?id='. h(u($page['id'])) . '&preview=true'); ?>" target="blank_" rel="noreferrer noopener">Preview</a></dd>
             </dl>
         </div>
     </div>
