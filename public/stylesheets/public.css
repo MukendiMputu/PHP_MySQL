@@ -118,7 +118,9 @@ navigation li {
   margin-bottom: 40px;
   padding: 0;
   height: 200px;
-  width: 900px;
+  width: 100%;
+  text-align: center;
+  background-color: #ae9e91;
 }
 
 #page {

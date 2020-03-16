@@ -133,7 +133,8 @@
         $sql .= "subject_id = '" . db_escape($db, $page['subject_id']) . "', ";
         $sql .= "page_name = '" . db_escape($db, $page['page_name']) . "', ";
         $sql .= "position = '" . db_escape($db, $page['position']) . "', ";
-        $sql .= "visible = '" . db_escape($db, $page['visible']) . "' ";
+        $sql .= "visible = '" . db_escape($db, $page['visible']) . "' ,";
+        $sql .= "content = '" . db_escape($db, $page['content']) . "' ";
         $sql .= "WHERE id ='" . db_escape($db, $page['id']) . "' ";
         $sql .= "LIMIT 1";
         $result = mysqli_query($db, $sql);

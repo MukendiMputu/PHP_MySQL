@@ -83,7 +83,7 @@
             </dl>
             <dl>
                 <dt>Page Content</dt>
-                <dd><input type="text" name="content" value="" /></dd>
+                <dd><textarea name="content" cols="60" rows="10"></textarea></dd>
             </dl>
             <div id="operations">
                 <input type="submit" value="Create Page" />

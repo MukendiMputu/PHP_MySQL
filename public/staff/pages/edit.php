@@ -46,7 +46,7 @@
                 <select name="subject_id">
                 <?php $subjects = find_all_subjects();$current_page = find_subject_by_id($page['subject_id']);?>
                 <?php while ($subject = mysqli_fetch_assoc($subjects)) {
-                    echo "<option value=\" {$subject['menu_name']} \"";
+                    echo "<option value=\" {$subject['id']} \"";
                     if ($subject['menu_name'] == $current_page['menu_name']) {
                         echo " selected";
                     }
