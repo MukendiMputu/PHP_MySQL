@@ -18,7 +18,10 @@
       $page['content'] = $_POST['content'] ?? '';
 
       $result = update_page($page);
-      redirect_to(url_for('/staff/pages/show.php?id=' . $id));
+      if ($result === true) {
+        $_SESSION['message'] = "The page was updated successfully.";
+        redirect_to(url_for('/staff/pages/show.php?id=' . $id));
+      }
 
     } else {
         $page = find_page_by_id(h($id)); // prevent html tags to be passed in

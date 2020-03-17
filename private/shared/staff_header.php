@@ -23,3 +23,4 @@
         <li><a href="<?php echo WWW_ROOT . "/staff/logout.php"; ?>">Logout</a></li>
       </ul>
     </navigation>
+    <?php echo display_session_message(); ?>

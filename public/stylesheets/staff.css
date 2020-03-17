@@ -128,3 +128,10 @@ dd {
   margin-bottom: 0;
   padding-left: 1em;
 }
+
+#message {
+  border: 1px solid #90a8ee;
+  padding: 5px;
+  color: #90a8ee;
+  width: 70%;
+}
