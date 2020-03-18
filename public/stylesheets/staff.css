@@ -130,8 +130,9 @@ dd {
 }
 
 #message {
+  margin: 15px;
   border: 1px solid #90a8ee;
   padding: 5px;
   color: #90a8ee;
-  width: 70%;
+  width: 500px;
 }
