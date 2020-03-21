@@ -1,4 +1,7 @@
-<?php include('../../../private/initialize.php'); ?>
+<?php
+    include('../../../private/initialize.php');
+    require_login();
+?>
 
 <?php $page_title = 'Show Subjects'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>

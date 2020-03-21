@@ -1,100 +1,93 @@
 <?php
     require_once('../../../private/initialize.php');
 
-    $page_title = 'Create Page';
+    $page_title = 'Create Admin';
 ?>
 
-<?php include(SHARED_PATH .'/staff_header.php'); ?>
-
+<?php require_login();?>
 <?php
 
     if(is_post_request()) {
-
         // Handle form values sent by new.php
-        $page = [];
-        $page['page_name'] = $_POST['page_name'] ?? '';
-        $page['subject_id'] = $_POST['subject_id'] ?? '';
-        $page['position'] = $_POST['position'] ?? '';
-        $page['visible'] = $_POST['visible'] ?? '';
-        $page['content'] = $_POST['content'] ?? '';
+        $admin = [];
+        $admin['first_name'] = $_POST['first_name'] ?? '';
+        $admin['last_name'] = $_POST['last_name'] ?? '';
+        $admin['email'] = $_POST['email'] ?? '';
+        $admin['username'] = $_POST['username'] ?? '';
+        $admin['password'] = $_POST['password'] ?? '';
+        $admin['confirm_password'] = $_POST['confirm_password'] ?? '';
 
-        $result = insert_page($page);
-        $new_id = mysqli_insert_id($db);
-        redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
+        $result = insert_admin($admin);
+        echo print_r($result);
+        if($result === true) {
+          $new_id = mysqli_insert_id($db);
+          $_SESSION['message'] = 'Admin created.';
+          redirect_to(url_for('/staff/admins/show.php?id=' . $new_id));
+        } else {
+            $errors = $result;
+        }
 
     } else {
-
-        $subject_set = find_all_subjects();
-        $subjects = mysqli_fetch_all($subject_set);
-
-        $page_set = find_all_pages();
-        $page_count = mysqli_num_rows($page_set) + 1;
-
-        $page = [];
-        $page['position'] = $page_count;
+        // display the blank form
+        $admin = [];
+        $admin["first_name"] = '';
+        $admin["last_name"] = '';
+        $admin["email"] = '';
+        $admin["username"] = '';
+        $admin['password'] = '';
+        $admin['confirm_password'] = '';
     }
 
 ?>
-
+<?php include(SHARED_PATH .'/staff_header.php'); ?>
 <div id="content">
-    <a class="back list" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a><br/>
+    <a class="back list" href="<?php echo url_for('/staff/admins/index.php'); ?>">&laquo; Back to List</a><br/>
 
-    <div class="page new">
-        <h1>Create Page</h1>
+    <div class="admin new">
+        <h1>Create Admin</h1>
 
-        <form action="<?php echo url_for('/staff/pages/new.php'); ?>" method="post">
+        <?php if (isset($errors)) { echo display_errors($errors);}  ?>
+
+        <form action="<?php echo url_for('/staff/admins/new.php'); ?>" method="post">
             <dl>
-                <dt>Page Name</dt>
-                <dd><input type="text" name="page_name" value="" /></dd>
+                <dt>First name</dt>
+                <dd><input type="text" name="first_name" value="<?php echo h($admin['first_name']); ?>" /></dd>
             </dl>
+
             <dl>
-                <dt>Subject</dt>
-                <dd>
-                <select name="subject_id">
-                        <?php
-                        foreach($subjects as $subject_row) {
-                            echo "<option value=\"{$subject_row[0]}\">{$subject_row[1]}</option>";
-                        }
-                        ?>
-                </select>
-                </dd>
+                <dt>Last name</dt>
+                <dd><input type="text" name="last_name" value="<?php echo h($admin['last_name']); ?>" /></dd>
             </dl>
+
             <dl>
-                <dt>Position</dt>
-                <dd>
-                <select name="position">
-                        <?php
-                        for($i=1; $i <= $page_count; $i++) {
-                            echo "<option value=\"{$i}\"";
-                            if($page["position"] == $i) {
-                            echo " selected";
-                            }
-                            echo ">{$i}</option>";
-                        }
-                        ?>
-                </select>
-                </dd>
-            <dl>
-                <dt>Visible</dt>
-                <dd>
-                    <input type="hidden" name="visible" value="0" />
-                    <input type="checkbox" name="visible" value="1" />
-                </dd>
+                <dt>Username</dt>
+                <dd><input type="text" name="username" value="<?php echo h($admin['username']); ?>" /></dd>
             </dl>
+
             <dl>
-                <dt>Page Content</dt>
-                <dd><textarea name="content" cols="60" rows="10"></textarea></dd>
+                <dt>Email </dt>
+                <dd><input type="text" name="email" value="<?php echo h($admin['email']); ?>" /><br /></dd>
             </dl>
+
+            <dl>
+                <dt>Password</dt>
+                <dd><input type="password" name="password" value="" /></dd>
+            </dl>
+
+            <dl>
+                <dt>Confirm Password</dt>
+                <dd><input type="password" name="confirm_password" value="" /></dd>
+            </dl>
+            <p>
+                Passwords should be at least 12 characters and include at least one uppercase letter, lowercase letter, number, and symbol.
+            </p>
+            <br />
+
             <div id="operations">
-                <input type="submit" value="Create Page" />
+                <input type="submit" value="Create Admin" />
             </div>
         </form>
     </div>
 </div>
-
-<?php
-    mysqli_free_result($subject_set);
-    mysqli_free_result($page_set);
-?>
 
 <?php include(SHARED_PATH . '/staff_footer.php'); ?>

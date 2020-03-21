@@ -1,5 +1,7 @@
 <?php require_once('../../../private/initialize.php'); ?>
 
+<?php require_login();?>
+
 <?php $page_title = 'admins'; ?>
 <?php include(SHARED_PATH.'/staff_header.php'); ?>
 
@@ -31,7 +33,7 @@
             ?>
             <tr>
                 <td><?php echo h($admin['id']); ?></td>
-                <td><?php echo h($subject['first_name']); ?></td>
+                <td><?php echo h($admin['first_name']); ?></td>
                 <td><?php echo h($admin['last_name']); ?></td>
                 <td><?php echo h($admin['email']); ?></td>
                 <td><?php echo h($admin['username']);?></td>

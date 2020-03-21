@@ -1,86 +1,90 @@
 <?php
-    require_once('../../../private/initialize.php');
 
-    if(!isset($_GET['id'])) {
-        redirect_to(url_for('/staff/pages/index.php'));
-    }
+require_once('../../../private/initialize.php');
+require_login();
 
-    $id = $_GET['id'];
+if(!isset($_GET['id'])) {
+  redirect_to(url_for('/staff/admins/index.php'));
+}
+$id = $_GET['id'];
 
-    if(is_post_request()) {
-      $page = [];
-      // Handle form values sent by new.php
-      $page['id'] = $id;
-      $page['subject_id'] = $_POST['subject_id'] ?? '';
-      $page['page_name'] = $_POST['page_name'] ?? '';
-      $page['position'] = $_POST['position'] ?? '';
-      $page['visible'] = $_POST['visible'] ?? '';
-      $page['content'] = $_POST['content'] ?? '';
+if(is_post_request()) {
+  $admin = [];
+  $admin['id'] = $id;
+  $admin['first_name'] = $_POST['first_name'] ?? '';
+  $admin['last_name'] = $_POST['last_name'] ?? '';
+  $admin['email'] = $_POST['email'] ?? '';
+  $admin['username'] = $_POST['username'] ?? '';
+  $admin['password'] = $_POST['password'] ?? '';
+  $admin['confirm_password'] = $_POST['confirm_password'] ?? '';
 
-      $result = update_page($page);
-      if ($result === true) {
-        $_SESSION['message'] = "The page was updated successfully.";
-        redirect_to(url_for('/staff/pages/show.php?id=' . $id));
-      }
+  $result = update_admin($admin);
+  if($result === true) {
+    $_SESSION['message'] = 'Admin updated.';
+    redirect_to(url_for('/staff/admins/show.php?id=' . $id));
+  } else {
+    $errors = $result;
+  }
+} else {
+  $admin = find_admin_by_id($id);
+}
 
-    } else {
-        $page = find_page_by_id(h($id)); // prevent html tags to be passed in
-    }
-
-    $page_title = 'Edit Page';
 ?>
 
-<?php include(SHARED_PATH .'/staff_header.php'); ?>
+<?php $page_title = 'Edit Admin'; ?>
+<?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
-    <a class="back list" href="<?php echo url_for('/staff/pages/index.php'); ?>">&laquo; Back to List</a><br/>
 
-    <div class="page new">
-        <h1>Edit Page</h1>
-        <!-- the url must be sent with the id of the page to be edited -->
-        <form action="<?php echo url_for('/staff/pages/edit.php?id=' . h(u($page['id']))); ?>" method="post">
-            <dl>
-                <dt>Page Name</dt>
-                <dd><input type="text" name="page_name" value="<?php echo h($page['page_name']); ?>" /></dd>
-            </dl>
-            <dl>
-                <dt>Subject</dt>
-                <dd>
-                <select name="subject_id">
-                <?php $subjects = find_all_subjects();$current_page = find_subject_by_id($page['subject_id']);?>
-                <?php while ($subject = mysqli_fetch_assoc($subjects)) {
-                    echo "<option value=\" {$subject['id']} \"";
-                    if ($subject['menu_name'] == $current_page['menu_name']) {
-                        echo " selected";
-                    }
-                    echo "> {$subject['menu_name']} </option>";
-                }?>
-                </select>
-                </dd>
-            <dl>
-            <dl>
-                <dt>Position</dt>
-                <dd>
-                <select name="position">
-                    <option value="1"<?php if($page['position'] == "1") { echo " selected"; } ?>>1</option>
-                </select>
-                </dd>
-            <dl>
-                <dt>Visible</dt>
-                <dd>
-                    <input type="hidden" name="visible" value="0" />
-                    <input type="checkbox" name="visible" value="1" <?php if($page['visible'] == "1") { echo " checked"; } ?> />
-                </dd>
-            </dl>
-            <dl>
-                <dt>Page Content</dt>
-                <dd><textarea name="content" cols="60" rows="10"> <?php echo h($page['content']); ?></textarea></dd>
-            </dl>
-            <div id="operations">
-                <input type="submit" value="Edit Page" />
-            </div>
-        </form>
-    </div>
+  <a class="back-link" href="<?php echo url_for('/staff/admins/index.php'); ?>">&laquo; Back to List</a>
+
+  <div class="admin edit">
+    <h1>Edit Admin</h1>
+
+    <?php echo display_errors($errors); ?>
+
+    <form action="<?php echo url_for('/staff/admins/edit.php?id=' . h(u($id))); ?>" method="post">
+      <dl>
+        <dt>First name</dt>
+        <dd><input type="text" name="first_name" value="<?php echo h($admin['first_name']); ?>" /></dd>
+      </dl>
+
+      <dl>
+        <dt>Last name</dt>
+        <dd><input type="text" name="last_name" value="<?php echo h($admin['last_name']); ?>" /></dd>
+      </dl>
+
+      <dl>
+        <dt>Username</dt>
+        <dd><input type="text" name="username" value="<?php echo h($admin['username']); ?>" /></dd>
+      </dl>
+
+      <dl>
+        <dt>Email</dt>
+        <dd><input type="text" name="email" value="<?php echo h($admin['email']); ?>" /><br /></dd>
+      </dl>
+
+      <dl>
+        <dt>Password</dt>
+        <dd><input type="password" name="password" value="" /></dd>
+      </dl>
+
+      <dl>
+        <dt>Confirm Password</dt>
+        <dd><input type="password" name="confirm_password" value="" /></dd>
+      </dl>
+      <p>
+        Passwords should be at least 12 characters and include at least one uppercase letter, lowercase letter, number, and symbol.
+      </p>
+      <br />
+
+      <div id="operations">
+        <input type="submit" value="Edit Admin" />
+      </div>
+    </form>
+
+  </div>
+
 </div>
 
 <?php include(SHARED_PATH . '/staff_footer.php'); ?>
